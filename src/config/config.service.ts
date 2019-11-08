@@ -2,6 +2,14 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 require('dotenv').config();
 
+enum ConfigKey {
+    POSTGRES_HOST = 'POSTGRES_HOST',
+    POSTGRES_PORT = 'POSTGRES_PORT',
+    POSTGRES_USER = 'POSTGRES_USER',
+    POSTGRES_PASSWORD = 'POSTGRES_PASSWORD',
+    POSTGRES_DATABASE = 'POSTGRES_DATABASE',
+}
+
 class ConfigService {
     constructor(private env: { [k: string]: string | undefined }) { }
 
@@ -31,11 +39,11 @@ class ConfigService {
     public getTypeOrmConfig(): TypeOrmModuleOptions {
         return {
             type: 'postgres',
-            host: this.getValue('POSTGRES_HOST'),
-            port: parseInt(this.getValue('POSTGRES_PORT'), 10),
-            username: this.getValue('POSTGRES_USER'),
-            password: this.getValue('POSTGRES_PASSWORD'),
-            database: this.getValue('POSTGRES_DATABASE'),
+            host: this.getValue(ConfigKey.POSTGRES_HOST),
+            port: parseInt(this.getValue(ConfigKey.POSTGRES_PORT), 10),
+            username: this.getValue(ConfigKey.POSTGRES_USER),
+            password: this.getValue(ConfigKey.POSTGRES_PASSWORD),
+            database: this.getValue(ConfigKey.POSTGRES_DATABASE),
 
             entities: ['**/*.entity{.ts,.js}'],
 
@@ -54,11 +62,11 @@ class ConfigService {
 
 const configService = new ConfigService(process.env)
     .ensureValues([
-        'POSTGRES_HOST',
-        'POSTGRES_PORT',
-        'POSTGRES_USER',
-        'POSTGRES_PASSWORD',
-        'POSTGRES_DATABASE',
+        ConfigKey.POSTGRES_HOST,
+        ConfigKey.POSTGRES_PORT,
+        ConfigKey.POSTGRES_USER,
+        ConfigKey.POSTGRES_PASSWORD,
+        ConfigKey.POSTGRES_DATABASE,
     ]);
 
 export { configService };

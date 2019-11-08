@@ -3,10 +3,10 @@ import {BaseEntity} from './base.entity';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
-    @Column({ type: 'timestamptz', nullable: true, name: 'confirmed_at' })
+    @Column({ type: 'timestamptz', nullable: true })
     confirmedAt: Date;
 
-    @Column({ type: 'int', nullable: true, name: 'confirmation_pin' })
+    @Column({ type: 'int', nullable: true})
     confirmationPin: number;
 
     @Column({ type: 'varchar', length: 16, unique: true })
