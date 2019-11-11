@@ -8,5 +8,5 @@ export class UserConfirmationDto {
 
     @ApiModelProperty({ required: true })
     @IsNumber()
-    confirmationPin: number;
+    pin: number;
 }

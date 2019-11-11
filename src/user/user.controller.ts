@@ -1,9 +1,9 @@
 import {Body, Controller, Get, Post, Put, Req} from '@nestjs/common';
 import {UserService} from './user.service';
-import {UserDTO} from './user.dto';
+import {UserDto} from './user.dto';
 import {UserConfirmationDto} from './dto/userConfirmation.dto';
 
-@Controller('users')
+@Controller('user')
 export class UserController {
     constructor(private serv: UserService) {}
 
@@ -12,13 +12,13 @@ export class UserController {
         return await this.serv.getAll();
     }
 
-    @Post('/create')
-    public async post(@Body() userBody: UserDTO): Promise<UserDTO> {
-        return await this.serv.create(UserDTO.from(userBody));
+    @Post('/signup')
+    public async post(@Body() userBody: UserDto): Promise<UserDto> {
+        return await this.serv.create(UserDto.from(userBody));
     }
 
     @Put('/confirm')
-    public async confirm(@Body() userConfirmation: UserConfirmationDto): Promise<UserDTO> {
+    public async confirm(@Body() userConfirmation: UserConfirmationDto): Promise<UserDto> {
         console.log('CONFIRMING USER:', userConfirmation);
         return await this.serv.validateUserConfirmation(userConfirmation);
     }
