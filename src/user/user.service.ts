@@ -5,6 +5,7 @@ import {Repository} from 'typeorm';
 import {UserDto} from './user.dto';
 import {UserConfirmationDto} from './dto/userConfirmation.dto';
 import {sendConfirmationSms} from '../../lib/twilio/sms.service';
+import {randomInt} from '../../lib/util/randomInt';
 
 @Injectable()
 export class UserService {
@@ -26,7 +27,7 @@ export class UserService {
             userEntity = userDto.toEntity();
         }
 
-        userEntity.confirmationPin = UserService.generateConfirmationPin();
+        userEntity.confirmationPin = randomInt(6);
 
         return this.repo.save(userEntity)
             .then((e) => {
@@ -52,10 +53,5 @@ export class UserService {
 
     public async createNewUserPin(userDTO: UserDto) {
         // TODO: Find user based on phone number + invalidate pin
-    }
-
-    // Private
-    private static generateConfirmationPin(): number {
-       return Math.floor(Math.random() * 1E6);
     }
 }
