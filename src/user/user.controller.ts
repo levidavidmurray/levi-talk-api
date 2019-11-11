@@ -14,12 +14,13 @@ export class UserController {
 
     @Post('/signup')
     public async post(@Body() userBody: UserDto): Promise<UserDto> {
+        userBody.normalizePhone();
         return await this.serv.create(UserDto.from(userBody));
     }
 
     @Put('/confirm')
     public async confirm(@Body() userConfirmation: UserConfirmationDto): Promise<UserDto> {
-        console.log('CONFIRMING USER:', userConfirmation);
+        userConfirmation.normalizePhone();
         return await this.serv.validateUserConfirmation(userConfirmation);
     }
 }

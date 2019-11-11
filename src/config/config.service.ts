@@ -1,4 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import * as twilio from 'twilio';
 
 require('dotenv').config();
 
@@ -8,6 +9,9 @@ enum ConfigKey {
     POSTGRES_USER = 'POSTGRES_USER',
     POSTGRES_PASSWORD = 'POSTGRES_PASSWORD',
     POSTGRES_DATABASE = 'POSTGRES_DATABASE',
+    TWILIO_SID = 'TWILIO_ACCOUNT_SID',
+    TWILIO_TOKEN = 'TWILIO_AUTH_TOKEN',
+    TWILIO_NUMBER = 'TWILIO_NUMBER',
 }
 
 class ConfigService {
@@ -34,6 +38,14 @@ class ConfigService {
     public isProduction() {
         const mode = this.getValue('MODE', false);
         return mode !== 'DEV';
+    }
+
+    public getTwilioClient(): twilio.Twilio {
+        return twilio(this.getValue(ConfigKey.TWILIO_SID), this.getValue(ConfigKey.TWILIO_TOKEN));
+    }
+
+    public getTwilioNumber(): string {
+        return this.getValue(ConfigKey.TWILIO_NUMBER);
     }
 
     public getTypeOrmConfig(): TypeOrmModuleOptions {
@@ -67,6 +79,8 @@ const configService = new ConfigService(process.env)
         ConfigKey.POSTGRES_USER,
         ConfigKey.POSTGRES_PASSWORD,
         ConfigKey.POSTGRES_DATABASE,
+        ConfigKey.TWILIO_SID,
+        ConfigKey.TWILIO_TOKEN,
     ]);
 
 export { configService };

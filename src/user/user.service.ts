@@ -4,6 +4,7 @@ import {User} from '../model/user.entity';
 import {Repository} from 'typeorm';
 import {UserDto} from './user.dto';
 import {UserConfirmationDto} from './dto/userConfirmation.dto';
+import {sendConfirmationSms} from '../../lib/twilio/sms.service';
 
 @Injectable()
 export class UserService {
@@ -18,13 +19,20 @@ export class UserService {
         return await this.repo.findOne({where: {phone} });
     }
 
-    public async create(userDTO: UserDto): Promise<UserDto> {
-        const newUser: User = userDTO.toEntity();
-        newUser.confirmationPin = UserService.generateConfirmationPin();
-        console.log('[LeviChat SMS Api]: ', {phone: newUser.phone, confirmationPin: newUser.confirmationPin});
-        // TODO: Send generated code to user phone number
-        return this.repo.save(newUser)
-            .then((e) => UserDto.fromEntity(e));
+    public async create(userDto: UserDto): Promise<UserDto> {
+        let userEntity: User = await this.findUserByPhone(userDto.phone);
+
+        if (!userEntity) {
+            userEntity = userDto.toEntity();
+        }
+
+        userEntity.confirmationPin = UserService.generateConfirmationPin();
+
+        return this.repo.save(userEntity)
+            .then((e) => {
+                sendConfirmationSms(new UserConfirmationDto(e.phone, e.confirmationPin));
+                return UserDto.fromEntity(e);
+            });
     }
 
     public async validateUserConfirmation(userConfirmationDto: UserConfirmationDto): Promise<UserDto> {

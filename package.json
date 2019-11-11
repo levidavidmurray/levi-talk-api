@@ -30,14 +30,18 @@
     "@nestjs/platform-express": "^6.7.2",
     "@nestjs/swagger": "^3.1.0",
     "@nestjs/typeorm": "^6.2.0",
+    "@types/phone": "^2.4.0",
+    "@types/twilio": "^0.0.10",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.11.0",
     "dotenv": "^8.2.0",
     "nodemon": "^1.19.4",
     "pg": "^7.12.1",
+    "phone": "^2.4.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.3",
+    "twilio": "^3.37.0",
     "typeorm": "^0.2.20"
   },
   "devDependencies": {
