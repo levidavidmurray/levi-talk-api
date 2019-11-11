@@ -1,6 +1,5 @@
 import {configService} from '../../src/config/config.service';
 import {UserConfirmationDto} from '../../src/user/dto/userConfirmation.dto';
-require('dotenv').config();
 
 const client = configService.getTwilioClient();
 

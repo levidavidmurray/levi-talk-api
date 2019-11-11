@@ -1,5 +1,5 @@
 import {ApiModelProperty} from '@nestjs/swagger';
-import {IsMobilePhone, IsNumber, IsString} from 'class-validator';
+import {IsNumber} from 'class-validator';
 import {UserDto} from '../user.dto';
 
 export class UserConfirmationDto extends UserDto {
