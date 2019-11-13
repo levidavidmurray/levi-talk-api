@@ -12,6 +12,7 @@ enum ConfigKey {
     TWILIO_SID = 'TWILIO_ACCOUNT_SID',
     TWILIO_TOKEN = 'TWILIO_AUTH_TOKEN',
     TWILIO_NUMBER = 'TWILIO_NUMBER',
+    SECRET_KEY = 'SECRET_KEY',
 }
 
 class ConfigService {
@@ -48,6 +49,10 @@ class ConfigService {
         return this.getValue(ConfigKey.TWILIO_NUMBER);
     }
 
+    public getSecretKey(): string {
+        return this.getValue(ConfigKey.SECRET_KEY);
+    }
+
     public getTypeOrmConfig(): TypeOrmModuleOptions {
         return {
             type: 'postgres',
@@ -81,6 +86,7 @@ const configService = new ConfigService(process.env)
         ConfigKey.POSTGRES_DATABASE,
         ConfigKey.TWILIO_SID,
         ConfigKey.TWILIO_TOKEN,
+        ConfigKey.SECRET_KEY,
     ]);
 
 export { configService };

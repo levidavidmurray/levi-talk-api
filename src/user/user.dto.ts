@@ -28,8 +28,12 @@ export class UserDto implements Readonly<UserDto> {
         });
     }
 
+    public static normalizePhoneNumber(phoneStr: string) {
+        return phone(phoneStr)[0];
+    }
+
     public normalizePhone(): void {
-        this.phone = phone(this.phone)[0];
+        this.phone = UserDto.normalizePhoneNumber(this.phone);
     }
 
     public toEntity(): User {
