@@ -1,9 +1,11 @@
-import {Controller, Get, Post, Request, UseGuards} from '@nestjs/common';
+import { Controller, Get, Logger, Post, Request, UseGuards } from '@nestjs/common';
 import {AuthGuard} from '@nestjs/passport';
 import {AuthService} from './auth/auth.service';
+import { UserDto } from './user/user.dto';
 
 @Controller()
 export class AppController {
+    private readonly logger = new Logger(AppController.name);
     constructor(private readonly authService: AuthService) {}
 
     @UseGuards(AuthGuard('local'))
@@ -15,6 +17,6 @@ export class AppController {
     @UseGuards(AuthGuard('jwt'))
     @Get('profile')
     getProfile(@Request() req) {
-        return req.user;
+        return UserDto.fromEntity(req.user);
     }
 }

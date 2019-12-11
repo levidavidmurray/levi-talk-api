@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
-import {User} from '../model/user.entity';
+import {User} from './user.entity';
 import {Repository} from 'typeorm';
 import {UserDto} from './user.dto';
 import {UserConfirmationDto} from './dto/userConfirmation.dto';
@@ -14,6 +14,10 @@ export class UserService {
     public async getAll() {
         return await this.repo.find()
             .then(users => users.map((e) => UserDto.fromEntity(e)));
+    }
+
+    public async find(userId: string): Promise<User> {
+        return await this.repo.findOne(userId);
     }
 
     public async findUserByPhone(phone: string): Promise<User> {

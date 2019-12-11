@@ -1,6 +1,6 @@
 import {ApiModelProperty} from '@nestjs/swagger';
 import {IsMobilePhone} from 'class-validator';
-import {User} from '../model/user.entity';
+import {User} from './user.entity';
 import * as phone from 'phone/dist';
 
 export class UserDto implements Readonly<UserDto> {
