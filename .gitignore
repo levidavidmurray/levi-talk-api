@@ -3,8 +3,9 @@
 /node_modules
 
 .env
-start_db
+set_env
 ormconfig.json
+postgres-data
 # Logs
 logs
 *.log
