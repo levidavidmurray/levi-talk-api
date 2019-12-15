@@ -33,11 +33,10 @@ export class UserService {
 
         userEntity.confirmationPin = randomInt(6);
 
-        return this.repo.save(userEntity)
-            .then((e) => {
-                sendConfirmationSms(new UserConfirmationDto(e.phone, e.confirmationPin));
-                return UserDto.fromEntity(e);
-            });
+        const newUser = await this.repo.save(userEntity);
+
+        sendConfirmationSms(new UserConfirmationDto(newUser.phone, newUser.confirmationPin));
+        return UserDto.fromEntity(newUser);
     }
 
     public async validateUserConfirmation(userConfirmationDto: UserConfirmationDto): Promise<UserDto> {

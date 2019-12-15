@@ -8,9 +8,10 @@ export class UserDto implements Readonly<UserDto> {
     @IsMobilePhone('en-US')
     phone: string;
 
-    talkId: number;
-
+    @ApiModelProperty({ required: true })
     displayName: string;
+
+    talkId: number;
 
     public static from(dto: Partial<UserDto>): UserDto {
         const user = new UserDto();
@@ -39,6 +40,7 @@ export class UserDto implements Readonly<UserDto> {
     public toEntity(): User {
         const user = new User();
         user.phone = this.phone;
+        user.displayName = this.displayName;
         return user;
     }
 }
