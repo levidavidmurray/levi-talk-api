@@ -7,11 +7,6 @@ import {UserConfirmationDto} from './dto/userConfirmation.dto';
 export class UserController {
     constructor(private userService: UserService) {}
 
-    @Get('/all')
-    public async getAll() {
-        return await this.userService.getAll();
-    }
-
     @Post('/signup')
     public async post(@Body() userBody: UserDto): Promise<UserDto> {
         userBody.normalizePhone();

@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
-import {User} from './user.entity';
+import {User} from '../models/user.entity';
 import {Repository} from 'typeorm';
 import {UserDto} from './user.dto';
 import {UserConfirmationDto} from './dto/userConfirmation.dto';
 import {sendConfirmationSms} from '../../lib/twilio/sms.service';
 import {randomInt} from '../../lib/util/randomInt';
+import { AppUserIdentifierDto } from '../conversation/dto/appUserIdentifier.dto';
 
 @Injectable()
 export class UserService {
@@ -22,6 +23,11 @@ export class UserService {
 
     public async findUserByPhone(phone: string): Promise<User> {
         return await this.repo.findOne({where: {phone} });
+    }
+
+    public async findByAppUserId(appUserIdent: AppUserIdentifierDto) {
+        const {displayName, talkId} = appUserIdent;
+        return await this.repo.findOne({where: {displayName, talkId}});
     }
 
     public async create(userDto: UserDto): Promise<UserDto> {

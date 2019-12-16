@@ -5,9 +5,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {UserModule} from './user/user.module';
-import { ConversationController } from './conversation/conversation.controller';
 import { AuthModule } from './auth/auth.module';
 import { getMetadataArgsStorage } from 'typeorm';
+import { ConversationModule } from './conversation/conversation.module';
 
 const username = process.env.POSTGRES_USER || 'postgres';
 const password = process.env.POSTGRES_PASSWORD;
@@ -22,12 +22,13 @@ const password = process.env.POSTGRES_PASSWORD;
         password,
         database: 'levi_chat',
         entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
-        synchronize: true,
+        synchronize: false,
       }),
       UserModule,
       AuthModule,
+      ConversationModule,
   ],
-  controllers: [AppController, ConversationController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
